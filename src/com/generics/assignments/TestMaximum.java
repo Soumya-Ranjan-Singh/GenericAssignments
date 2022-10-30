@@ -1,13 +1,22 @@
 //Use Case 1 is to give 3 integers and find out the maximum and its position in array.
 //Use Case 2 is to give 3 floats and find out the maximum and its position in array.
 //Use Case 3 is to give 3 strings and find out the maximum and its position in array.
-//Refactoring all 3 to one generic method and find out the maximum.
+//Refactoring 1 - all 3 to one generic method and find out the maximum.
+//Refactoring 2 - to take 3 variables of generic types and find out maximum.
 
 package com.generics.assignments;
 
-import java.util.Scanner;
+public class TestMaximum <T> {
 
-public class TestMaximum {
+    //Creating 3 variables.
+    T a,b,c;
+
+    //Creating Parameterized constructor for generic data types.
+    public TestMaximum(T a, T b, T c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
 
     //Default Constructor
     public TestMaximum()
@@ -20,43 +29,36 @@ public class TestMaximum {
         TestMaximum testMaximum = new TestMaximum();
 
         //Define the array where size is 3(given).
-        Integer[] intArray = {3,4,8};
-        Float[] floatArray = {5.2f, 4.5f, 3.5f};
-        String[] stringArray = {"Apple","Peach","Banana"};
-        System.out.println("Considering integer array");
-        printArray(intArray);
-        getMaximum(intArray);
-        System.out.println("Considering float array");
-        printArray(floatArray);
-        getMaximum(floatArray);
-        System.out.println("Considering string array");
-        printArray(stringArray);
-        getMaximum(stringArray);
+        Integer xInt = 5, yInt = 6, zInt = 7;
+        Float xFlt = 5.5f, yFlt = 4.5f, zFlt = 3.5f;
+        String xStr = "Apple", yStr = "Peach", zStr = "Banana";
+
+        getMaximum(new TestMaximum(xInt,yInt,zInt));
+        getMaximum(new TestMaximum(xFlt,yFlt,zFlt));
+        getMaximum(new TestMaximum(xStr,yStr,zStr));
+
     }
 
-    //Get maximum from the array and its position.
-    public static <T extends Comparable<T>> void getMaximum(T[] array) {
-        T max = array[0];
-        int position = 0;
-        for (int i = 0; i < array.length; i++)
+    //Get maximum from the 3 variables.
+    public static <T extends Comparable<T>> void getMaximum(TestMaximum testMaximum) {
+        T x = (T) testMaximum.a;
+        T y = (T) testMaximum.b;
+        T z = (T) testMaximum.c;
+        T max = x;
+        if (y.compareTo(max) > 0)
         {
-            int a = array[i].compareTo(max);
-            if(a > 0)
-            {
-                max = array[i];
-                position = i;
-            }
+            max = y;
         }
-        System.out.println("\nMaximum integer is : "+max);
-        System.out.println("Maximum integer position is : "+position+" in array.");
+        if (z.compareTo(max) > 0)
+        {
+            max = z;
+        }
+        printMax(x,y,z,max);
     }
 
-    //Printing the array.
-    public static <T> void printArray(T[] array) {
-        System.out.println("Array is : ");
-        for (T element : array)
-        {
-            System.out.print(element+"  ");
-        }
+    //Print the maximum
+    public static <T extends Comparable<T>> void printMax(T x, T y, T z, T max) {
+        System.out.printf("Max of %s, %s and %s is %s\n",x,y,z,max);
     }
+
 }
